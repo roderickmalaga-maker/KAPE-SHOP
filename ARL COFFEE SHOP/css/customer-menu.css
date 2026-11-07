@@ -1,0 +1,23 @@
+
+/* ARL customer ordering refinements */
+.arl-product-card{background:#fff8e7;border:1px solid #eadcc4;border-radius:16px;overflow:hidden;box-shadow:0 5px 18px rgba(35,24,15,.08);display:flex;flex-direction:column;color:#29231d}
+.arl-product-photo{height:170px;background:linear-gradient(135deg,#f5e6c9,#fff8e7);display:grid;place-items:center;overflow:hidden}
+.arl-product-photo img{width:100%;height:100%;object-fit:cover}
+.arl-product-placeholder{font-size:64px;display:grid;place-items:center;width:100%;height:100%}
+.arl-product-info{padding:17px;display:flex;flex:1;flex-direction:column}
+.arl-category{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8b6b45;font-weight:700}
+.arl-product-info h3{color:#8b6500;margin:7px 0;font-size:18px}
+.arl-product-info p{color:#333;line-height:1.5;font-size:13px;flex:1;margin:0 0 15px}
+.arl-product-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.arl-product-bottom strong{font-size:20px;color:#a77b00}
+.arl-product-bottom .btn{background:#d4af37;color:#17130a;border:0;font-weight:700}
+.menu-empty{grid-column:1/-1;text-align:center;padding:35px;color:#554637}
+.guest-checkout{display:grid;gap:8px;margin:20px 0;color:#29231d}
+.guest-checkout h3{margin:0 0 6px;color:#8b6500}
+.guest-checkout label{font-size:13px;font-weight:600;color:#4b3929}
+.guest-checkout input,.guest-checkout select,.guest-checkout textarea{width:100%;padding:10px;border:1px solid #d8c6a8;border-radius:8px;background:#fffdf8;color:#29231d;font:inherit}
+.cart-line{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:15px 0;border-bottom:1px solid #eadcc4;color:#29231d}
+.cart-controls{display:flex;align-items:center;gap:9px}
+.cart-controls button{border:1px solid #d8c6a8;border-radius:6px;background:#fff8e7;color:#29231d;padding:6px 10px;cursor:pointer}
+.cart-controls .remove-cart{color:#9b2525}
+@media(max-width:700px){.cart-line{align-items:flex-start;flex-direction:column}.cart-controls{width:100%;justify-content:flex-start}}

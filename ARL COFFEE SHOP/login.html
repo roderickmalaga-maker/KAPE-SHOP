@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ARL COFFEE SHOP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-body">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">☕</div>
+                <h1>ARL COFFEE SHOP</h1>
+                <p>Premium Coffee Experience</p>
+            </div>
+            
+            <form id="loginForm" onsubmit="Auth.handleLogin(event)">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle" onclick="Auth.togglePassword('password')">👁️‍🗨️</button>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
+                        <span>Remember Me</span>
+                    </label>
+                    <a href="#" class="link">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            
+            <div id="message" class="message" style="display: none;"></div>
+            
+            <div class="auth-footer">
+                <p>Don't have an account? <a href="register.html" class="link">Sign Up</a></p>
+                <p style="margin-top: 10px;"><a href="index.html" class="link">← Back to Home</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await window.DB.initDB();
+                await window.DB.initializeSampleData();
+            } catch (error) {
+                console.error('Database initialization error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

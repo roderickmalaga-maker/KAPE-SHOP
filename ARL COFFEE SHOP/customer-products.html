@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - ARL Coffee Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/customer-menu.css">\n    <link rel="stylesheet" href="css/customer-menu.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">☕</div>
+                <h2>ARL Coffee Shop</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="customer-dashboard.html" class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></a>
+                <a href="customer-products.html" class="nav-item active"><span class="nav-icon">☕</span><span>Products</span></a>
+                <a href="customer-cart.html" class="nav-item"><span class="nav-icon">🛒</span><span>Cart <span id="cartCount" style="background: var(--accent-gold); color: var(--dark-brown); padding: 2px 6px; border-radius: 10px; font-size: 11px;">0</span></span></a>
+                <a href="customer-orders.html" class="nav-item"><span class="nav-icon">📋</span><span>My Orders</span></a>
+                <a href="customer-profile.html" class="nav-item"><span class="nav-icon">👤</span><span>Profile</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Guest</div>
+                        <div class="user-role">Guest ordering</div>
+                    </div>
+                </div>
+                <a href="index.html" class="btn btn-logout">← Home</a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Our Products</h1>
+            </header>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <div class="card-body" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <input type="text" id="searchProduct" placeholder="Search products..." oninput="filterProducts()" style="flex: 1; min-width: 200px; padding: 10px; border: 2px solid var(--beige); border-radius: 8px;">
+                    <select id="categoryFilter" onchange="filterProducts()" style="padding: 10px; border: 2px solid var(--beige); border-radius: 8px;">
+                        <option value="all">All Categories</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="productsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+            </div>
+        </main>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/customer-products.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.DB.initDB();
+            await window.DB.initializeSampleData();
+            await loadCustomerProducts();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

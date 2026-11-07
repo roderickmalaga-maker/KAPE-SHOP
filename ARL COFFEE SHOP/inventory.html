@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - ARL COFFEE SHOP</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">☕</div>
+                <h2>ARL Coffee Shop</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin.html" class="nav-item"><span class="nav-icon">📊</span><span>Dashboard</span></a>
+                <a href="admin.html#cashier-approvals" class="nav-item"><span class="nav-icon">✅</span><span>Cashier Approvals</span></a>
+                <a href="accounts.html" class="nav-item"><span class="nav-icon">👥</span><span>All Accounts</span></a>
+                <a href="pos.html" class="nav-item"><span class="nav-icon">🛒</span><span>Point of Sale</span></a>
+                <a href="products.html" class="nav-item"><span class="nav-icon">☕</span><span>Products</span></a>
+                <a href="orders.html" class="nav-item"><span class="nav-icon">📋</span><span>Orders</span></a>
+                <a href="customers.html" class="nav-item"><span class="nav-icon">👤</span><span>Customers</span></a>
+                <a href="inventory.html" class="nav-item active"><span class="nav-icon">📦</span><span>Inventory</span></a>
+                <a href="reports.html" class="nav-item"><span class="nav-icon">📈</span><span>Sales Reports</span></a>
+                <a href="settings.html" class="nav-item"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role" id="userRole">Loading...</div>
+                    </div>
+                </div>
+                <button onclick="Auth.logout()" class="btn btn-logout">🚪 Logout</button>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Inventory Management</h1>
+                <button onclick="showAddIngredient()" class="btn btn-primary">+ Add Ingredient</button>
+            </header>
+            
+            <!-- Low Stock Alerts -->
+            <div id="lowStockBanner" style="display: none; margin-bottom: 20px; padding: 14px 18px; background: rgba(244,67,54,0.12); border: 1px solid rgba(244,67,54,0.4); border-radius: 10px; color: #ef5350;"></div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Ingredients & Supplies</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Min. Stock</th>
+                                    <th>Cost/Unit</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <tr><td colspan="7" style="text-align: center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Ingredient Modal -->
+    <div id="ingredientModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: linear-gradient(145deg, var(--secondary-black), var(--charcoal)); border: 1px solid var(--border-color); border-radius: 12px; padding: 28px; width: 100%; max-width: 440px; margin: 20px;">
+            <h2 id="ingredientModalTitle" style="color: var(--white); font-family: 'Playfair Display', serif; margin-bottom: 20px;">Add Ingredient</h2>
+            <form id="ingredientForm" onsubmit="saveIngredient(event)">
+                <input type="hidden" id="ingredientId">
+                <div class="form-group">
+                    <label for="ingredientName">Name</label>
+                    <input type="text" id="ingredientName" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label for="ingredientQuantity">Quantity</label>
+                        <input type="number" id="ingredientQuantity" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredientUnit">Unit</label>
+                        <input type="text" id="ingredientUnit" placeholder="e.g., grams, ml" required>
+                    </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="form-group">
+                        <label for="ingredientMinStock">Min. Stock Level</label>
+                        <input type="number" id="ingredientMinStock" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredientCost">Cost per Unit</label>
+                        <input type="number" id="ingredientCost" step="0.01" min="0" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save</button>
+                    <button type="button" onclick="closeIngredientModal()" class="btn" style="flex: 1; background: var(--charcoal); color: var(--warm-beige); border: 1px solid var(--border-color);">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Adjustment Modal -->
+    <div id="stockModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+        <div style="background: linear-gradient(145deg, var(--secondary-black), var(--charcoal)); border: 1px solid var(--border-color); border-radius: 12px; padding: 28px; width: 100%; max-width: 380px; margin: 20px;">
+            <h2 style="color: var(--white); font-family: 'Playfair Display', serif; margin-bottom: 20px;">Adjust Stock</h2>
+            <form id="stockForm" onsubmit="adjustStock(event)">
+                <input type="hidden" id="stockIngredientId">
+                <p id="stockItemName" style="color: var(--caramel-gold); margin-bottom: 16px; font-weight: 500;"></p>
+                <div class="form-group">
+                    <label for="stockType">Type</label>
+                    <select id="stockType" style="width: 100%; padding: 13px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--primary-black); color: var(--white); font-family: Inter, sans-serif;">
+                        <option value="add">Add Stock</option>
+                        <option value="deduct">Deduct Stock</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stockAmount">Amount</label>
+                    <input type="number" id="stockAmount" step="0.01" min="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="stockReason">Reason (Optional)</label>
+                    <input type="text" id="stockReason" placeholder="e.g., Restock, Waste, Usage">
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Apply</button>
+                    <button type="button" onclick="closeStockModal()" class="btn" style="flex: 1; background: var(--charcoal); color: var(--warm-beige); border: 1px solid var(--border-color);">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/inventory.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.DB.initDB();
+            await window.DB.initializeSampleData();
+            const user = window.Auth.requireAuth('Administrator');
+            if (!user) return;
+            document.getElementById('userName').textContent = user.fullName;
+            document.getElementById('userRole').textContent = user.role;
+            await loadInventory();
+        });
+    </script>
+</body>
+</html>

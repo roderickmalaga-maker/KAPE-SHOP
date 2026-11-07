@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - ARL Coffee Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">☕</div>
+                <h2>ARL Coffee Shop</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="customer-dashboard.html" class="nav-item"><span class="nav-icon">🏠</span><span>Home</span></a>
+                <a href="customer-products.html" class="nav-item"><span class="nav-icon">☕</span><span>Products</span></a>
+                <a href="customer-cart.html" class="nav-item active"><span class="nav-icon">🛒</span><span>Cart</span></a>
+                <a href="customer-orders.html" class="nav-item"><span class="nav-icon">📋</span><span>My Orders</span></a>
+                <a href="customer-profile.html" class="nav-item"><span class="nav-icon">👤</span><span>Profile</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Guest</div>
+                        <div class="user-role">Guest ordering</div>
+                    </div>
+                </div>
+                <a href="index.html" class="btn btn-logout">← Home</a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Shopping Cart</h1>
+            </header>
+            
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Cart Items</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="cartItems"></div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Order Summary</h2>
+                    </div>
+                    <div class="card-body">
+                        <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">₱0.00</span>
+                        </div>
+                        <div style="margin-bottom: 15px; display: flex; justify-content: space-between; padding-top: 15px; border-top: 2px solid var(--beige); font-size: 18px; font-weight: 600;">
+                            <span>Total:</span>
+                            <span id="total">₱0.00</span>
+                        </div>
+                        
+                        <div class="guest-checkout">
+                            <h3>Checkout Details</h3>
+                            <label for="guestName">Full Name</label><input id="guestName" type="text" required placeholder="Your name">
+                            <label for="guestPhone">Contact Number</label><input id="guestPhone" type="tel" required placeholder="09XXXXXXXXX">
+                            <label for="orderType">Order Type</label><select id="orderType" onchange="toggleTableField()"><option value="Takeout">Takeout</option><option value="Dine-in">Dine-in</option></select>
+                            <div id="tableField" style="display:none"><label for="tableNumber">Table Number</label><input id="tableNumber" type="text" placeholder="Enter table number"></div>
+                            <label for="orderNotes">Order Notes (optional)</label><textarea id="orderNotes" rows="2" placeholder="Special instructions"></textarea>
+                        </div>
+                        <button onclick="placeCustomerOrder()" class="btn btn-primary btn-block">Place Order</button>
+                        <a href="customer-products.html" class="btn btn-block" style="margin-top: 10px; background-color: var(--beige);">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/customer-cart.js"></script>
+    <link rel="stylesheet" href="css/customer-menu.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.DB.initDB();
+            await window.DB.initializeSampleData();
+            loadCart();
+        });
+    </script>
+</body>
+</html>

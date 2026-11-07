@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard - ARL Coffee Shop</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">☕</div>
+                <h2>ARL Coffee Shop</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="customer-dashboard.html" class="nav-item active"><span class="nav-icon">🏠</span><span>Home</span></a>
+                <a href="customer-products.html" class="nav-item"><span class="nav-icon">☕</span><span>Products</span></a>
+                <a href="customer-cart.html" class="nav-item"><span class="nav-icon">🛒</span><span>Cart</span></a>
+                <a href="customer-orders.html" class="nav-item"><span class="nav-icon">📋</span><span>My Orders</span></a>
+                <a href="customer-profile.html" class="nav-item"><span class="nav-icon">👤</span><span>Profile</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role">Customer</div>
+                    </div>
+                </div>
+                <a href="index.html" class="btn btn-logout">← Home</a>
+            </div>
+        </aside>
+        
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Welcome, <span id="welcomeName">Customer</span>!</h1>
+            </header>
+            
+            <div class="card" style="margin-bottom: 30px;">
+                <div class="card-body" style="text-align: center; padding: 40px;">
+                    <h2 style="color: var(--primary-brown); margin-bottom: 10px;">☕ Welcome to ARL Coffee Shop</h2>
+                    <p style="color: var(--light-brown);">Browse our delicious products and place your order online</p>
+                    <a href="customer-products.html" class="btn btn-primary" style="margin-top: 20px;">Browse Products</a>
+                </div>
+            </div>
+            
+            <section class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Featured Products</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="featuredProducts" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Categories</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="categories" style="display: flex; flex-direction: column; gap: 10px;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/customer-dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.DB.initDB();
+            await window.DB.initializeSampleData();
+            const user = window.Auth.checkAuth();
+            document.getElementById('userName').textContent = user?.fullName || 'Guest';
+            document.getElementById('welcomeName').textContent = user?.fullName?.split(' ')[0] || 'Guest';
+            await loadCustomerDashboard();
+        });
+    </script>
+</body>
+</html>
